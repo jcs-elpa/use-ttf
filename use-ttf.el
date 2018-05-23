@@ -40,7 +40,7 @@
 
 
 (defgroup use-ttf nil
-  "Load .ttf file and use it in Emacs."
+  "Use .ttf file in Emacs."
   :prefix "use-ttf-"
   :group 'editing
   :link '(url-link :tag "Repository" "https://github.com/jcs090218/use-ttf.git"))

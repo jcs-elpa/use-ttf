@@ -47,10 +47,10 @@ set your Emacs to your target font.
 
 ## Screen Shot ##
 Windows 10 with Ubuntu Mono Regular Font <br/>
-<img src="./screenshot/ubuntu-mono-on-win10.png" width="480" height="270"/>
+<img src="./screenshot/ubuntu-mono-on-win10.png" width="640" height="360"/>
 
 Ubuntu 14 with Classic Console Font <br/>
-<img src="./screenshot/classic-console-on-ubuntu14.png" width="480" height="270"/>
+<img src="./screenshot/classic-console-on-ubuntu14.png" width="640" height="360"/>
 
 
 ## TODO ##

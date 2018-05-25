@@ -109,7 +109,7 @@ IN-STR : string using to check if is contain one of the IN-LIST."
           (this-font-install nil))
       ;; NOTE(jenchieh): Start installing to OS.
       (cond (;; Windows
-             casey-win32
+             (string-equal system-type "windows-nt")
              (progn
                ;; NOTE(jenchieh): DOS/Windows use `slash' instead of `backslash'.
                (setq font-path (concat (getenv "HOME") default-ttf-font))
@@ -128,26 +128,22 @@ IN-STR : string using to check if is contain one of the IN-LIST."
                                         "\" /f"))
 
                  (setq this-font-install t))))
-            (;; MacOS
-             casey-aquamacs
+            (;; Mac OS X
+             (string-equal system-type "darwin")
              (progn
                ;; NOTE(jenchieh): MacOS use `backslash' instead of `slash'.
                (setq font-path (concat (getenv "HOME") default-ttf-font))
                (setq font-path (s-replace "\\" "/" font-path))
 
                (when (file-exists-p font-path)
-                 (unless (file-directory-p "~/.fonts")
-                   (mkdir "~/.fonts" t))
+                 (unless (file-directory-p "~/Library/Fonts")
+                   (mkdir "~/Library/Fonts" t))
 
-                 ;; TODO(jenchieh): Make it compatible with MacOS.
-                 ;; TODO(jenchieh): I try to make it, but I don't have
-                 ;; MacOS to test it.
-                 (shell-command (concat "cp \"" font-path "\" \"~/Library/Fonts/\""))
+                 (shell-command (concat "cp \"" font-path "\" ~/Library/Fonts"))
 
-                 (setq this-font-install t))
-               ))
+                 (setq this-font-install t))))
             (;; Linux Distro
-             casey-linux
+             (string-equal system-type "gnu/linux")
              (progn
                ;; NOTE(jenchieh): Linux use `backslash' instead of `slash'.
                (setq font-path (concat (getenv "HOME") default-ttf-font))

@@ -52,10 +52,8 @@ Windows 10 with Ubuntu Mono Regular Font <br/>
 Ubuntu 14 with Classic Console Font <br/>
 <img src="./screenshot/classic-console-on-ubuntu14.png" width="640" height="360"/>
 
-
-## TODO ##
-* Okay, I don't have a MacOS machine. I need someone to do that for me or else
- I would need to wait until someone willing to lend me and test it.
+Mac OS with Ubuntu Mono Regular Font <br/>
+<img src="./screenshot/ubuntu-mono-on-maxos.png" width="640" height="360"/>
 
 
 ## Contribution ##

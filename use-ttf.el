@@ -29,9 +29,6 @@
 ;;
 ;; Use .ttf file in Emacs.
 ;;
-;; (@* "TODO" )
-;; * Test package works in MacOS.
-;;
 
 ;;; Code:
 

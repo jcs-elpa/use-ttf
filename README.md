@@ -4,13 +4,11 @@ use-ttf is an Emacs package for you to use your own .ttf file in Emacs.
 <br/><br/>
 
 
-## Who may need this? (Story Behind) ## 
-I use to having the issue using the same front over different OS 
-because different OS have fonts installed differently. Plus I do not
-want to install font manully my own, so I made this package to solve my
-own issue and hopefully this package can help anyone having the same issue
-here. The package will manully install font file (.ttf) file for you base 
-on different OS and use it as default font in Emacs.
+## Who may need this? ## 
+I created this for people who have problems with their fonts not working 
+over different OS’s due to different installation methods used in different 
+OS’s. The purpose of this package is to automatically install font files (.ttf) 
+based on the OS you’re using. Saving you time from manually installing fonts.
 
 
 ## Configuration ##

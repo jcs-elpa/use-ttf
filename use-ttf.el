@@ -1,4 +1,4 @@
-;;; use-ttf.el --- Use .ttf file in Emacs.                     -*- lexical-binding: t; -*-
+;;; use-ttf.el --- Use the same font cross OS.                     -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2018  Shen, Jen-Chieh
 ;; Created date 2018-05-22 15:23:44
@@ -27,7 +27,7 @@
 
 ;;; Commentary:
 ;;
-;; Use .ttf file in Emacs.
+;; Use the same font cross OS.
 ;;
 
 ;;; Code:
@@ -39,7 +39,7 @@
 (defgroup use-ttf nil
   "Use .ttf file in Emacs."
   :prefix "use-ttf-"
-  :group 'customization
+  :group 'appearance
   :link '(url-link :tag "Repository" "https://github.com/jcs090218/use-ttf.git"))
 
 
@@ -55,7 +55,7 @@ This you need to check the font name in the system manually."
   :group 'use-ttf)
 
 
-(defun use-ttf-get-file-name-or-last-dir-fromt-path (in-path &optional ignore-errors-t)
+(defun use-ttf-get-file-name-or-last-dir-from-path (in-path &optional ignore-errors-t)
   "Get the either the file name or last directory from the IN-PATH.
 IN-PATH : input path.
 IGNORE-ERRORS-T : ignore errors for this function?"
@@ -102,7 +102,7 @@ IN-STR : string using to check if is contain one of the IN-LIST."
   (interactive)
   (dolist (default-ttf-font use-ttf-default-ttf-fonts)
     (let ((font-path default-ttf-font)
-          (ttf-file-name (use-ttf-get-file-name-or-last-dir-fromt-path default-ttf-font t))
+          (ttf-file-name (use-ttf-get-file-name-or-last-dir-from-path default-ttf-font t))
           (this-font-install nil))
       ;; NOTE(jenchieh): Start installing to OS.
       (cond (;; Windows
@@ -114,15 +114,18 @@ IN-STR : string using to check if is contain one of the IN-LIST."
 
                (when (file-exists-p font-path)
                  ;; Add font file to `Windows/Fonts' directory.
-                 (shell-command (concat "echo F|xcopy /y /s /e /o \""
-                                        font-path
-                                        "\" \"%systemroot%\\Fonts\""))
+                 (shell-command (concat "echo F|xcopy /y /s /e /o "
+                                        (shell-quote-argument font-path)
+                                        " \"%systemroot%\\Fonts\""))
                  ;; Then add it to the register.
-                 (shell-command (concat "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\" /v \""
-                                        ttf-file-name
-                                        " (TrueType)\" /t REG_SZ /d \""
-                                        ttf-file-name
-                                        "\" /f"))
+                 (shell-command
+                  (concat "reg add "
+                          (shell-quote-argument "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts")
+                          " /v "
+                          (shell-quote-argument (concat ttf-file-name " (TrueType)"))
+                          " /t REG_SZ /d "
+                          (shell-quote-argument ttf-file-name)
+                          " /f"))
 
                  (setq this-font-install t))))
             (;; Mac OS X
@@ -133,10 +136,15 @@ IN-STR : string using to check if is contain one of the IN-LIST."
                (setq font-path (s-replace "\\" "/" font-path))
 
                (when (file-exists-p font-path)
-                 (unless (file-directory-p "~/Library/Fonts")
-                   (mkdir "~/Library/Fonts" t))
+                 ;; NOTE(jenchieh): Should `install-font-path' => `~/Library/Fonts'.
+                 (let ((install-font-path (concat (getenv "HOME") "/Library/Fonts")))
+                   (unless (file-directory-p install-font-path)
+                     (mkdir install-font-path t))
 
-                 (shell-command (concat "cp \"" font-path "\" ~/Library/Fonts"))
+                   (shell-command (concat "cp "
+                                          (shell-quote-argument font-path)
+                                          " "
+                                          (shell-quote-argument install-font-path))))
 
                  (setq this-font-install t))))
             (;; Linux Distro
@@ -147,12 +155,17 @@ IN-STR : string using to check if is contain one of the IN-LIST."
                (setq font-path (s-replace "\\" "/" font-path))
 
                (when (file-exists-p font-path)
-                 (unless (file-directory-p "~/.fonts")
-                   (mkdir "~/.fonts" t))
+                 ;; NOTE(jenchieh): Should `install-font-path' => `~/.fonts'.
+                 (let ((install-font-path (concat (getenv "HOME") "/.fonts")))
 
-                 (shell-command (concat "cp \"" font-path "\" ~/.fonts"))
-                 (shell-command "fc-cache -f -v")
+                   (unless (file-directory-p install-font-path)
+                     (mkdir install-font-path t))
 
+                   (shell-command (concat "cp "
+                                          (shell-quote-argument font-path)
+                                          " "
+                                          (shell-quote-argument install-font-path)))
+                   (shell-command "fc-cache -f -v"))
                  (setq this-font-install t)))))
 
       ;; NOTE(jenchieh): Prompt when install the font.

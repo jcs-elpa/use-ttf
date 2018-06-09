@@ -1,6 +1,7 @@
 # ignore these directories.
 /.git
 /recipes
+/test
 use-ttf-pkg.el
 
 # ignore generated files.

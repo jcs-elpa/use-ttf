@@ -1,5 +1,7 @@
 # use-ttf #
 
+[![MELPA](https://melpa.org/packages/use-ttf-badge.svg)](https://melpa.org/#/use-ttf)
+
 use-ttf is an Emacs package for you to use your own .ttf file in Emacs.
 <br/><br/>
 

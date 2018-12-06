@@ -40,7 +40,7 @@
   "Use .ttf file in Emacs."
   :prefix "use-ttf-"
   :group 'appearance
-  :link '(url-link :tag "Repository" "https://github.com/jcs090218/use-ttf.git"))
+  :link '(url-link :tag "Repository" "https://github.com/jcs090218/use-ttf"))
 
 
 (defcustom use-ttf-default-ttf-fonts '()

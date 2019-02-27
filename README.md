@@ -7,7 +7,6 @@
 
 use-ttf is an Emacs package for you to use your own `.ttf` 
 file in Emacs.
-<br/><br/>
 
 
 ## Who may need this? ## 
@@ -19,7 +18,7 @@ based on the OS you’re using. Saving you time from manually installing fonts.
 
 ## Configuration ##
 List of TTF fonts you want to use and install in the currnet OS.
-```
+```el
 ;; I just have all my fonts inside my '.emacs.d' directory for sake of simplicity.
 ;; But you can have your font at any directory you want.
 (setq use-ttf-default-ttf-fonts '(;; >> Classic Console <<
@@ -30,7 +29,7 @@ List of TTF fonts you want to use and install in the currnet OS.
 
 Name of the font you want to use as default. I choose Ubuntu Mono as my 
 default font.
-```
+```el
 (setq use-ttf-default-ttf-font-name "Ubuntu Mono")
 ```
 
@@ -39,13 +38,13 @@ Install fonts into the current OS. The more .ttf file you try to install might
 take a while, but this function does not block the Emacs' process itself.
 Furthermore, you will want to call `use-ttf-set-default-font` function after
 install all the fonts in the `use-ttf-default-ttf-fonts` list.
-```
+```el
 (call-interactively #'use-ttf-install-fonts)
 ```
 
 Use the font by `use-ttf-default-ttf-font-name` variable. This will actually
 set your Emacs to your target font.
-```
+```el
 (call-interactively #'use-ttf-set-default-font)
 ```
 

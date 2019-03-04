@@ -48,7 +48,7 @@ set your Emacs to your target font.
 (call-interactively #'use-ttf-set-default-font)
 ```
 
-## Screen Shot ##
+## Screenshot ##
 Windows 10 with Ubuntu Mono Regular Font <br/>
 <img src="./screenshot/ubuntu-mono-on-win10.png" width="640" height="360"/>
 

@@ -24,9 +24,9 @@ List of TTF fonts you want to use and install in the currnet OS.
 ;; I just have all my fonts inside my '.emacs.d' directory for sake of simplicity.
 ;; But you can have your font at any directory you want.
 (setq use-ttf-default-ttf-fonts '(;; >> Classic Console <<
-                                  "/.emacs.d/fonts/clacon.ttf"
+                                  "/.emacs.jcs/fonts/clacon.ttf"
                                   ;; >> Ubuntu Mono <<
-                                  "/.emacs.d/fonts/UbuntuMono-R.ttf"))
+                                  "/.emacs.jcs/fonts/UbuntuMono-R.ttf"))
 ```
 
 Name of the font you want to use as default. I choose Ubuntu Mono as my 
@@ -41,13 +41,13 @@ take a while, but this function does not block the Emacs' process itself.
 Furthermore, you will want to call `use-ttf-set-default-font` function after
 install all the fonts in the `use-ttf-default-ttf-fonts` list.
 ```el
-(call-interactively #'use-ttf-install-fonts)
+M-x use-ttf-install-fonts
 ```
 
 Use the font by `use-ttf-default-ttf-font-name` variable. This will actually
 set your Emacs to your target font.
 ```el
-(call-interactively #'use-ttf-set-default-font)
+M-x use-ttf-set-default-font
 ```
 
 ## Screenshot

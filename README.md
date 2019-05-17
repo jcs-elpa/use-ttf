@@ -50,8 +50,6 @@ set your Emacs to your target font.
 M-x use-ttf-set-default-font
 ```
 
-## Screenshot
-
 
 ## Contribution
 If you would like to contribute to this project, you may either 

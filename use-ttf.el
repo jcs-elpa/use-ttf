@@ -1,11 +1,11 @@
-;;; use-ttf.el --- Use the same font cross OS.  -*- lexical-binding: t; -*-
+;;; use-ttf.el --- Keep font consistency across different OSs.  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2018  Shen, Jen-Chieh
 ;; Created date 2018-05-22 15:23:44
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
-;; Description: Use .ttf file in Emacs.
-;; Keyword: customize font ttf
+;; Description: Keep font consistency across different OSs.
+;; Keyword: customize font install ttf
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "24.4") (s "1.12.0"))
 ;; URL: https://github.com/jcs090218/use-ttf
@@ -27,7 +27,7 @@
 
 ;;; Commentary:
 ;;
-;; Use the same font cross OS.
+;; Keep font consistency across different OSs.
 ;;
 
 ;;; Code:

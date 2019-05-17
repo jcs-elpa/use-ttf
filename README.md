@@ -10,8 +10,6 @@
 |:------------------------------------------------:|:-------------------------------------------------------:|:------------------------------------------------:|
 |<img src="./screenshot/ubuntu-mono-on-win10.png"/>|<img src="./screenshot/classic-console-on-ubuntu14.png"/>|<img src="./screenshot/ubuntu-mono-on-maxos.png"/>|
 
-
-## Who may need this?
 I created this for people who have problems with their fonts not working 
 over different OS’s due to different installation methods used in different 
 OS’s. The purpose of this package is to automatically install font files (.ttf) 

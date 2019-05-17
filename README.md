@@ -4,9 +4,7 @@
 
 
 # use-ttf
-
-use-ttf is an Emacs package for you to use your own `.ttf` 
-file in Emacs.
+> Ensure Emacs' font consistency across different OSs.
 
 | Windows 10 / Ubuntu Mono Regular                 | Ubuntu 14 / Classic Console                             | Mac OS / Ubuntu Mono Regular                     |
 |:------------------------------------------------:|:-------------------------------------------------------:|:------------------------------------------------:|

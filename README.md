@@ -35,6 +35,7 @@ default font.
 (setq use-ttf-default-ttf-font-name "Ubuntu Mono")
 ```
 
+
 ## Usage
 Install fonts into the current OS. The more .ttf file you try to install might
 take a while, but this function does not block the Emacs' process itself.

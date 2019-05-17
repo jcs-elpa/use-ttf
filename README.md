@@ -4,7 +4,7 @@
 
 
 # use-ttf
-> Ensure Emacs' font consistency across different OSs.
+> Keep font consistency across different OSs.
 
 I created this for people who have problems with their fonts not working 
 over different OS’s due to different installation methods used in different 

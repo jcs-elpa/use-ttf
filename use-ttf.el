@@ -59,7 +59,7 @@ This you need to check the font name in the system manually."
   "Get the either the file name or last directory from the IN-PATH.
 IN-PATH : input path.
 IGNORE-ERRORS-T : ignore errors for this function?"
-  ;; TODO(jenchieh): Future might implement just include directory and not
+  ;; TODO: Future might implement just include directory and not
   ;; each single .ttf file.
   (if (and (not (or (file-directory-p in-path)
                     (file-exists-p in-path)))
@@ -104,11 +104,11 @@ IN-STR : string using to check if is contain one of the IN-LIST."
     (let ((font-path default-ttf-font)
           (ttf-file-name (use-ttf-get-file-name-or-last-dir-from-path default-ttf-font t))
           (this-font-install nil))
-      ;; NOTE(jenchieh): Start installing to OS.
+      ;; NOTE: Start installing to OS.
       (cond (;; Windows
              (string-equal system-type "windows-nt")
              (progn
-               ;; NOTE(jenchieh): DOS/Windows use `slash' instead of `backslash'.
+               ;; NOTE: DOS/Windows use `slash' instead of `backslash'.
                (setq font-path (concat (getenv "HOME") default-ttf-font))
                (setq font-path (s-replace "/" "\\" font-path))
 
@@ -131,12 +131,12 @@ IN-STR : string using to check if is contain one of the IN-LIST."
             (;; Mac OS X
              (string-equal system-type "darwin")
              (progn
-               ;; NOTE(jenchieh): MacOS use `backslash' instead of `slash'.
+               ;; NOTE: MacOS use `backslash' instead of `slash'.
                (setq font-path (concat (getenv "HOME") default-ttf-font))
                (setq font-path (s-replace "\\" "/" font-path))
 
                (when (file-exists-p font-path)
-                 ;; NOTE(jenchieh): Should `install-font-path' => `~/Library/Fonts'.
+                 ;; NOTE: Should `install-font-path' => `~/Library/Fonts'.
                  (let ((install-font-path (concat (getenv "HOME") "/Library/Fonts")))
                    (unless (file-directory-p install-font-path)
                      (mkdir install-font-path t))
@@ -150,12 +150,12 @@ IN-STR : string using to check if is contain one of the IN-LIST."
             (;; Linux Distro
              (string-equal system-type "gnu/linux")
              (progn
-               ;; NOTE(jenchieh): Linux use `backslash' instead of `slash'.
+               ;; NOTE: Linux use `backslash' instead of `slash'.
                (setq font-path (concat (getenv "HOME") default-ttf-font))
                (setq font-path (s-replace "\\" "/" font-path))
 
                (when (file-exists-p font-path)
-                 ;; NOTE(jenchieh): Should `install-font-path' => `~/.fonts'.
+                 ;; NOTE: Should `install-font-path' => `~/.fonts'.
                  (let ((install-font-path (concat (getenv "HOME") "/.fonts")))
 
                    (unless (file-directory-p install-font-path)
@@ -168,7 +168,7 @@ IN-STR : string using to check if is contain one of the IN-LIST."
                    (shell-command "fc-cache -f -v"))
                  (setq this-font-install t)))))
 
-      ;; NOTE(jenchieh): Prompt when install the font.
+      ;; NOTE: Prompt when install the font.
       (if this-font-install
           (message "[Done install font '%s'.]" ttf-file-name)
         (message "[Font '%s' you specify is not install.]" ttf-file-name))
@@ -183,7 +183,7 @@ This will actually set your Emacs to your target font."
   (if (string= use-ttf-default-ttf-font-name "")
       (error "Your default font name cannot be 'nil' or 'empty string'")
     (progn
-      ;; NOTE(jenchieh): Install font if not installed.
+      ;; NOTE: Install font if not installed.
       (unless (use-ttf-is-contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
         (call-interactively #'use-ttf-install-fonts))
 
@@ -191,7 +191,7 @@ This will actually set your Emacs to your target font."
           (progn
             (set-frame-font use-ttf-default-ttf-font-name nil t)
             (message "[Set default font to '%s'.]" use-ttf-default-ttf-font-name))
-        ;; NOTE(jenchieh): Logically, no need to output error message about
+        ;; NOTE: Logically, no need to output error message about
         ;; installation, because `use-ttf-install-fonts' handles itself.
         (message "[Install fonts process still running, please call 'use-ttf-set-default-font' after a while.]")))))
 

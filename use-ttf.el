@@ -57,7 +57,6 @@ This you need to check the font name in the system manually."
 
 (defun use-ttf-get-file-name-or-last-dir-from-path (in-path &optional ignore-errors-t)
   "Get the either the file name or last directory from the IN-PATH.
-IN-PATH : input path.
 IGNORE-ERRORS-T : ignore errors for this function?"
   ;; TODO: Future might implement just include directory and not
   ;; each single .ttf file.
@@ -91,8 +90,7 @@ IGNORE-ERRORS-T : ignore errors for this function?"
 
 (defun use-ttf-is-contain-list-string (in-list in-str)
   "Check if a string contain in any string in the string list.
-IN-LIST : list of string use to check if IN-STR in contain one of
-the string.
+IN-LIST : list of string use to check if IN-STR in contain one of the string.
 IN-STR : string using to check if is contain one of the IN-LIST."
   (cl-some #'(lambda (lb-sub-str) (string-match-p (regexp-quote lb-sub-str) in-str)) in-list))
 
@@ -172,7 +170,7 @@ IN-STR : string using to check if is contain one of the IN-LIST."
       (if this-font-install
           (message "[Done install font '%s'.]" ttf-file-name)
         (message "[Font '%s' you specify is not install.]" ttf-file-name))
-      ))  ;; End 'dolist'.
+      ))  ; End 'dolist'.
   (message "[Done install all the fonts.]"))
 
 ;;;###autoload

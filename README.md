@@ -16,7 +16,12 @@ based on the OS you’re using. Saving you time from manually installing fonts.
 |<img src="./screenshot/ubuntu-mono-on-win10.png"/>|<img src="./screenshot/classic-console-on-ubuntu14.png"/>|<img src="./screenshot/ubuntu-mono-on-maxos.png"/>|
 
 
+**!! [ATTENTION] !! -- MAKE SURE EMACS HAS THE PERMISSION 
+TO INSTALL FONTS!**
+
+
 ## Configuration
+
 List of TTF fonts you want to use and install in the currnet OS.
 ```el
 ;; I just have all my fonts inside my '.emacs.d' directory for sake of simplicity.
@@ -35,6 +40,7 @@ default font.
 
 
 ## Usage
+
 Install fonts into the current OS. The more .ttf file you try to install might
 take a while, but this function does not block the Emacs' process itself.
 Furthermore, you will want to call `use-ttf-set-default-font` function after
@@ -51,6 +57,7 @@ M-x use-ttf-set-default-font
 
 
 ## Contribution
+
 If you would like to contribute to this project, you may either 
 clone and make pull requests to this repository. Or you can 
 clone the project and establish your own branch of this tool. 

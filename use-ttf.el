@@ -178,8 +178,10 @@ IN-STR : string using to check if is contain one of the IN-LIST."
   "Use the font by `use-ttf-default-ttf-font-name` variable.
 This will actually set your Emacs to your target font."
   (interactive)
-  (if (string= use-ttf-default-ttf-font-name "")
-      (error "Your default font name cannot be 'nil' or 'empty string'")
+  (if (or (not use-ttf-default-ttf-font-name)
+          (and (stringp use-ttf-default-ttf-font-name)
+               (string= use-ttf-default-ttf-font-name "")))
+      (user-error "Your default font name cannot be 'nil' or 'empty string'")
     (progn
       ;; NOTE: Install font if not installed.
       (unless (use-ttf-is-contain-list-string (font-family-list) use-ttf-default-ttf-font-name)

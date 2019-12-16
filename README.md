@@ -17,8 +17,8 @@ based on the OS you’re using. Saving you time from manually installing fonts.
 |<img src="./screenshot/ubuntu-mono-on-win10.png"/>|<img src="./screenshot/classic-console-on-ubuntu14.png"/>|<img src="./screenshot/ubuntu-mono-on-maxos.png"/>|
 
 
-**!! [ATTENTION] !! -- MAKE SURE EMACS HAS THE PERMISSION 
-TO INSTALL FONTS!**
+**:exclamation::exclamation: [ATTENTION] :exclamation::exclamation: 
+-- MAKE SURE EMACS HAS THE PERMISSION TO INSTALL FONTS!**
 
 
 ## Configuration

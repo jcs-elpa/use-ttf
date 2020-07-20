@@ -51,11 +51,10 @@ This you need to check the font name in the system manually."
   :type 'string
   :group 'use-ttf)
 
-(defun use-ttf-get-file-name-or-last-dir-from-path (in-path &optional ignore-errors-t)
+(defun use-ttf--get-file-name-or-last-dir-from-path (in-path &optional ignore-errors-t)
   "Get the either the file name or last directory from the IN-PATH.
 IGNORE-ERRORS-T : ignore errors for this function?"
-  ;; TODO: Future might implement just include directory and not
-  ;; each single .ttf file.
+  ;; TODO: Future might implement just include directory and not each single .ttf file.
   (if (and (not (or (file-directory-p in-path)
                     (file-exists-p in-path)))
            (not ignore-errors-t))
@@ -84,10 +83,8 @@ IGNORE-ERRORS-T : ignore errors for this function?"
         ;; Return result.
         result-dir-or-file))))
 
-(defun use-ttf-is-contain-list-string (in-list in-str)
-  "Check if a string contain in any string in the string list.
-IN-LIST : list of string use to check if IN-STR in contain one of the string.
-IN-STR : string using to check if is contain one of the IN-LIST."
+(defun use-ttf--is-contain-list-string (in-list in-str)
+  "Check if IN-STR contain in any string in the IN-LIST."
   (cl-some #'(lambda (lb-sub-str) (string-match-p (regexp-quote lb-sub-str) in-str)) in-list))
 
 ;;;###autoload
@@ -96,7 +93,7 @@ IN-STR : string using to check if is contain one of the IN-LIST."
   (interactive)
   (dolist (default-ttf-font use-ttf-default-ttf-fonts)
     (let ((font-path default-ttf-font)
-          (ttf-file-name (use-ttf-get-file-name-or-last-dir-from-path default-ttf-font t))
+          (ttf-file-name (use-ttf--get-file-name-or-last-dir-from-path default-ttf-font t))
           (this-font-install nil))
       ;; NOTE: Start installing to OS.
       (cond (;; Windows
@@ -165,8 +162,7 @@ IN-STR : string using to check if is contain one of the IN-LIST."
       ;; NOTE: Prompt when install the font.
       (if this-font-install
           (message "[Done install font '%s'.]" ttf-file-name)
-        (message "[Font '%s' you specify is not install.]" ttf-file-name))
-      ))  ; End 'dolist'.
+        (message "[Font '%s' you specify is not install.]" ttf-file-name))))
   (message "[Done install all the fonts.]"))
 
 ;;;###autoload
@@ -180,10 +176,10 @@ This will actually set your Emacs to your target font."
       (user-error "Your default font name cannot be 'nil' or 'empty string'")
     (progn
       ;; NOTE: Install font if not installed.
-      (unless (use-ttf-is-contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
+      (unless (use-ttf--is-contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
         (call-interactively #'use-ttf-install-fonts))
 
-      (if (use-ttf-is-contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
+      (if (use-ttf--is-contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
           (progn
             (set-frame-font use-ttf-default-ttf-font-name nil t)
             (message "[Set default font to '%s'.]" use-ttf-default-ttf-font-name))

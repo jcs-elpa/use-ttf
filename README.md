@@ -1,8 +1,7 @@
-[![Build Status](https://travis-ci.com/jcs090218/use-ttf.svg?branch=master)](https://travis-ci.com/jcs090218/use-ttf)
+[![Build Status](https://travis-ci.com/jcs-elpa/use-ttf.svg?branch=master)](https://travis-ci.com/jcs-elpa/use-ttf)
 [![MELPA](https://melpa.org/packages/use-ttf-badge.svg)](https://melpa.org/#/use-ttf)
 [![MELPA Stable](https://stable.melpa.org/packages/use-ttf-badge.svg)](https://stable.melpa.org/#/use-ttf)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
 
 # use-ttf
 > Keep font consistency across different OSs.
@@ -12,14 +11,13 @@ over different OS’s due to different installation methods used in different
 OS’s. The purpose of this package is to automatically install font files (.ttf) 
 based on the OS you’re using. Saving you time from manually installing fonts.
 
-| Windows 10 / Ubuntu Mono Regular                 | Ubuntu 14 / Classic Console                             | Mac OS / Ubuntu Mono Regular                     |
-|:------------------------------------------------:|:-------------------------------------------------------:|:------------------------------------------------:|
-|<img src="./screenshot/ubuntu-mono-on-win10.png"/>|<img src="./screenshot/classic-console-on-ubuntu14.png"/>|<img src="./screenshot/ubuntu-mono-on-maxos.png"/>|
+| Windows 10 / Ubuntu Mono Regular          | Ubuntu 14 / Classic Console                             | Mac OS / Ubuntu Mono Regular              |
+|------------------------------------------:|:-------------------------------------------------------:|:-----------------------------------------:|
+|<img src="./etc/ubuntu-mono-on-win10.png"/>|<img src="./screenshot/classic-console-on-ubuntu14.png"/>|<img src="./etc/ubuntu-mono-on-maxos.png"/>|
 
 
 **:exclamation::exclamation: [ATTENTION] :exclamation::exclamation: 
 -- MAKE SURE EMACS HAS THE PERMISSION TO INSTALL FONTS!**
-
 
 ## Configuration
 
@@ -39,7 +37,6 @@ default font.
 (setq use-ttf-default-ttf-font-name "Ubuntu Mono")
 ```
 
-
 ## Usage
 
 Install fonts into the current OS. The more .ttf file you try to install might
@@ -55,7 +52,6 @@ set your Emacs to your target font.
 ```el
 M-x use-ttf-set-default-font
 ```
-
 
 ## Contribution
 

@@ -32,16 +32,13 @@
 
 ;;; Code:
 
-
 (require 's)
-
 
 (defgroup use-ttf nil
   "Use .ttf file in Emacs."
   :prefix "use-ttf-"
   :group 'appearance
   :link '(url-link :tag "Repository" "https://github.com/jcs090218/use-ttf"))
-
 
 (defcustom use-ttf-default-ttf-fonts '()
   "List of TTF fonts you want to use in the currnet OS."
@@ -53,7 +50,6 @@
 This you need to check the font name in the system manually."
   :type 'string
   :group 'use-ttf)
-
 
 (defun use-ttf-get-file-name-or-last-dir-from-path (in-path &optional ignore-errors-t)
   "Get the either the file name or last directory from the IN-PATH.
@@ -194,7 +190,6 @@ This will actually set your Emacs to your target font."
         ;; NOTE: Logically, no need to output error message about
         ;; installation, because `use-ttf-install-fonts' handles itself.
         (message "[Install fonts process still running, please call 'use-ttf-set-default-font' after a while.]")))))
-
 
 (provide 'use-ttf)
 ;;; use-ttf.el ends here

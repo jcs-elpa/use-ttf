@@ -8,7 +8,7 @@
 ;; Keyword: customize font install ttf
 ;; Version: 0.0.5
 ;; Package-Requires: ((emacs "24.4") (s "1.12.0"))
-;; URL: https://github.com/jcs090218/use-ttf
+;; URL: https://github.com/jcs-elpa/use-ttf
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -38,7 +38,7 @@
   "Use .ttf file in Emacs."
   :prefix "use-ttf-"
   :group 'appearance
-  :link '(url-link :tag "Repository" "https://github.com/jcs090218/use-ttf"))
+  :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/use-ttf"))
 
 (defcustom use-ttf-default-ttf-fonts '()
   "List of TTF fonts you want to use in the currnet OS."

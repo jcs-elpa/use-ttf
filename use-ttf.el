@@ -89,7 +89,7 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
   (dolist (default-ttf-font use-ttf-default-ttf-fonts)
     (let ((font-path default-ttf-font)
           (ttf-file-name (use-ttf--get-file-name-or-last-dir-from-path default-ttf-font t))
-          (this-font-install t)
+          (this-font-install nil)
           install-font-path)
       ;; NOTE: Start installing to OS.
       (cond
@@ -111,7 +111,9 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
                    (shell-quote-argument (concat ttf-file-name " (TrueType)"))
                    " /t REG_SZ /d "
                    (shell-quote-argument ttf-file-name)
-                   " /f"))))
+                   " /f"))
+
+          (setq this-font-install t)))
        ((string= system-type "darwin")  ; macOS
         ;; NOTE: MacOS use `backslash' instead of `slash'.
         (setq font-path (concat (getenv "HOME") default-ttf-font)
@@ -128,7 +130,9 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
            (concat "cp "
                    (shell-quote-argument font-path)
                    " "
-                   (shell-quote-argument install-font-path)))))
+                   (shell-quote-argument install-font-path)))
+
+          (setq this-font-install t)))
        ((string= system-type "gnu/linux")  ; Linux Distro
         ;; NOTE: Linux use `backslash' instead of `slash'.
         (setq font-path (concat (getenv "HOME") default-ttf-font)
@@ -146,8 +150,9 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
                    (shell-quote-argument font-path)
                    " "
                    (shell-quote-argument install-font-path)))
-          (shell-command "fc-cache -f -v")))
-       (t (setq this-font-install nil)))
+          (shell-command "fc-cache -f -v")
+
+          (setq this-font-install t))))
 
       ;; NOTE: Prompt when install the font.
       (if this-font-install

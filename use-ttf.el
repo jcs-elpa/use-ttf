@@ -51,41 +51,36 @@ This you need to check the font name in the system manually."
   :type 'string
   :group 'use-ttf)
 
-(defun use-ttf--get-file-name-or-last-dir-from-path (in-path &optional ignore-errors-t)
-  "Get the either the file name or last directory from the IN-PATH.
-IGNORE-ERRORS-T : ignore errors for this function?"
-  ;; TODO: Future might implement just include directory and not each single .ttf file.
-  (if (and (not (or (file-directory-p in-path)
-                    (file-exists-p in-path)))
-           (not ignore-errors-t))
-      (error "Directory/File you trying get does not exists")
-    (progn
-      (let ((result-dir-or-file nil)
-            (split-dir-file-list '())
-            (split-dir-file-list-len 0))
-
-        (cond ((string-match-p "/" in-path)
-               (progn
-                 (setq split-dir-file-list (split-string in-path "/"))))
-              ((string-match-p "\\" in-path)
-               (progn
-                 (setq split-dir-file-list (split-string in-path "\\"))))
-              ((string-match-p "\\\\" in-path)
-               (progn
-                 (setq split-dir-file-list (split-string in-path "\\\\")))))
-
-        ;; Get the last element/item in the list.
-        (setq split-dir-file-list-len (1- (length split-dir-file-list)))
-
-        ;; Result is alwasy the last item in the list.
-        (setq result-dir-or-file (nth split-dir-file-list-len split-dir-file-list))
-
-        ;; Return result.
-        result-dir-or-file))))
-
 (defun use-ttf--is-contain-list-string (in-list in-str)
   "Check if IN-STR contain in any string in the IN-LIST."
   (cl-some #'(lambda (lb-sub-str) (string-match-p (regexp-quote lb-sub-str) in-str)) in-list))
+
+(defun use-ttf--get-file-name-or-last-dir-from-path (in-path &optional ignore-errors-t)
+  "Get the either the file name or last directory from the IN-PATH.
+If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this function."
+  ;; TODO: Future might implement just include directory and not each single .ttf file.
+  (if (and (not (or (file-directory-p in-path) (file-exists-p in-path)))
+           (not ignore-errors-t))
+      (error "Directory/File you trying get does not exists : %s" in-path)
+    (let ((result-dir-or-file nil)
+          (split-dir-file-list '()) (split-dir-file-list-len 0))
+
+      (cond
+       ((string-match-p "/" in-path)
+        (setq split-dir-file-list (split-string in-path "/")))
+       ((string-match-p "\\" in-path)
+        (setq split-dir-file-list (split-string in-path "\\")))
+       ((string-match-p "\\\\" in-path)
+        (setq split-dir-file-list (split-string in-path "\\\\"))))
+
+      ;; Get the last element/item in the list.
+      (setq split-dir-file-list-len (1- (length split-dir-file-list)))
+
+      ;; Result is alwasy the last item in the list.
+      (setq result-dir-or-file (nth split-dir-file-list-len split-dir-file-list))
+
+      ;; Return result.
+      result-dir-or-file)))
 
 ;;;###autoload
 (defun use-ttf-install-fonts ()

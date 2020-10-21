@@ -89,70 +89,65 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
   (dolist (default-ttf-font use-ttf-default-ttf-fonts)
     (let ((font-path default-ttf-font)
           (ttf-file-name (use-ttf--get-file-name-or-last-dir-from-path default-ttf-font t))
-          (this-font-install nil))
+          (this-font-install t)
+          install-font-path)
       ;; NOTE: Start installing to OS.
-      (cond (;; Windows
-             (string-equal system-type "windows-nt")
-             (progn
-               ;; NOTE: DOS/Windows use `slash' instead of `backslash'.
-               (setq font-path (concat (getenv "HOME") default-ttf-font))
-               (setq font-path (s-replace "/" "\\" font-path))
+      (cond
+       ((string= system-type "windows-nt")  ; Windows
+        ;; NOTE: DOS/Windows use `slash' instead of `backslash'.
+        (setq font-path (concat (getenv "HOME") default-ttf-font)
+              font-path (s-replace "/" "\\" font-path))
 
-               (when (file-exists-p font-path)
-                 ;; Add font file to `Windows/Fonts' directory.
-                 (shell-command (concat "echo F|xcopy /y /s /e /o "
-                                        (shell-quote-argument font-path)
-                                        " \"%systemroot%\\Fonts\""))
-                 ;; Then add it to the register.
-                 (shell-command
-                  (concat "reg add "
-                          (shell-quote-argument "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts")
-                          " /v "
-                          (shell-quote-argument (concat ttf-file-name " (TrueType)"))
-                          " /t REG_SZ /d "
-                          (shell-quote-argument ttf-file-name)
-                          " /f"))
+        (when (file-exists-p font-path)
+          ;; Add font file to `Windows/Fonts' directory.
+          (shell-command (concat "echo F|xcopy /y /s /e /o "
+                                 (shell-quote-argument font-path)
+                                 " \"%systemroot%\\Fonts\""))
+          ;; Then add it to the register.
+          (shell-command
+           (concat "reg add "
+                   (shell-quote-argument "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts")
+                   " /v "
+                   (shell-quote-argument (concat ttf-file-name " (TrueType)"))
+                   " /t REG_SZ /d "
+                   (shell-quote-argument ttf-file-name)
+                   " /f"))))
+       ((string= system-type "darwin")  ; macOS
+        ;; NOTE: MacOS use `backslash' instead of `slash'.
+        (setq font-path (concat (getenv "HOME") default-ttf-font)
+              font-path (s-replace "\\" "/" font-path))
 
-                 (setq this-font-install t))))
-            (;; Mac OS X
-             (string-equal system-type "darwin")
-             (progn
-               ;; NOTE: MacOS use `backslash' instead of `slash'.
-               (setq font-path (concat (getenv "HOME") default-ttf-font))
-               (setq font-path (s-replace "\\" "/" font-path))
+        (when (file-exists-p font-path)
+          ;; NOTE: Should `install-font-path' => `~/Library/Fonts'.
+          (setq install-font-path (concat (getenv "HOME") "/Library/Fonts"))
 
-               (when (file-exists-p font-path)
-                 ;; NOTE: Should `install-font-path' => `~/Library/Fonts'.
-                 (let ((install-font-path (concat (getenv "HOME") "/Library/Fonts")))
-                   (unless (file-directory-p install-font-path)
-                     (mkdir install-font-path t))
+          (unless (file-directory-p install-font-path)
+            (mkdir install-font-path t))
 
-                   (shell-command (concat "cp "
-                                          (shell-quote-argument font-path)
-                                          " "
-                                          (shell-quote-argument install-font-path))))
+          (shell-command
+           (concat "cp "
+                   (shell-quote-argument font-path)
+                   " "
+                   (shell-quote-argument install-font-path)))))
+       ((string= system-type "gnu/linux")  ; Linux Distro
+        ;; NOTE: Linux use `backslash' instead of `slash'.
+        (setq font-path (concat (getenv "HOME") default-ttf-font)
+              font-path (s-replace "\\" "/" font-path))
 
-                 (setq this-font-install t))))
-            (;; Linux Distro
-             (string-equal system-type "gnu/linux")
-             (progn
-               ;; NOTE: Linux use `backslash' instead of `slash'.
-               (setq font-path (concat (getenv "HOME") default-ttf-font))
-               (setq font-path (s-replace "\\" "/" font-path))
+        (when (file-exists-p font-path)
+          ;; NOTE: Should `install-font-path' => `~/.fonts'.
+          (setq install-font-path (concat (getenv "HOME") "/.fonts"))
 
-               (when (file-exists-p font-path)
-                 ;; NOTE: Should `install-font-path' => `~/.fonts'.
-                 (let ((install-font-path (concat (getenv "HOME") "/.fonts")))
+          (unless (file-directory-p install-font-path)
+            (mkdir install-font-path t))
 
-                   (unless (file-directory-p install-font-path)
-                     (mkdir install-font-path t))
-
-                   (shell-command (concat "cp "
-                                          (shell-quote-argument font-path)
-                                          " "
-                                          (shell-quote-argument install-font-path)))
-                   (shell-command "fc-cache -f -v"))
-                 (setq this-font-install t)))))
+          (shell-command
+           (concat "cp "
+                   (shell-quote-argument font-path)
+                   " "
+                   (shell-quote-argument install-font-path)))
+          (shell-command "fc-cache -f -v")))
+       (t (setq this-font-install nil)))
 
       ;; NOTE: Prompt when install the font.
       (if this-font-install
@@ -169,18 +164,17 @@ This will actually set your Emacs to your target font."
           (and (stringp use-ttf-default-ttf-font-name)
                (string= use-ttf-default-ttf-font-name "")))
       (user-error "Your default font name cannot be 'nil' or 'empty string'")
-    (progn
-      ;; NOTE: Install font if not installed.
-      (unless (use-ttf--is-contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
-        (call-interactively #'use-ttf-install-fonts))
+    ;; NOTE: Install font if not installed.
+    (unless (use-ttf--is-contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
+      (call-interactively #'use-ttf-install-fonts))
 
-      (if (use-ttf--is-contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
-          (progn
-            (set-frame-font use-ttf-default-ttf-font-name nil t)
-            (message "[Set default font to '%s'.]" use-ttf-default-ttf-font-name))
-        ;; NOTE: Logically, no need to output error message about
-        ;; installation, because `use-ttf-install-fonts' handles itself.
-        (message "[Install fonts process still running, please call 'use-ttf-set-default-font' after a while.]")))))
+    (if (use-ttf--is-contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
+        (progn
+          (set-frame-font use-ttf-default-ttf-font-name nil t)
+          (message "[Set default font to '%s'.]" use-ttf-default-ttf-font-name))
+      ;; NOTE: Logically, no need to output error message about
+      ;; installation, because `use-ttf-install-fonts' handles itself.
+      (message "[Install fonts process still running, please call 'use-ttf-set-default-font' after a while.]"))))
 
 (provide 'use-ttf)
 ;;; use-ttf.el ends here

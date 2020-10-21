@@ -6,7 +6,7 @@
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
 ;; Description: Keep font consistency across different OSs.
 ;; Keyword: customize font install ttf
-;; Version: 0.0.6
+;; Version: 0.1.0
 ;; Package-Requires: ((emacs "24.4") (s "1.12.0"))
 ;; URL: https://github.com/jcs-elpa/use-ttf
 

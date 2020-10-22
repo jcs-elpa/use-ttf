@@ -12,7 +12,7 @@ over different OS’s due to different installation methods used in different
 OS’s. The purpose of this package is to automatically install font files (.ttf)
 based on the OS you’re using. Saving you time from manually installing fonts.
 
-| Windows 10 / Ubuntu Mono Regular          | Ubuntu 14 / Classic Console                      | Mac OS / Ubuntu Mono Regular              |
+| Windows 10 / Ubuntu Mono                  | Ubuntu 14 / Classic Console                      | Mac OS / Ubuntu Mono                      |
 |------------------------------------------:|:------------------------------------------------:|:-----------------------------------------:|
 |<img src="./etc/ubuntu-mono-on-win10.png"/>|<img src="./etc/classic-console-on-ubuntu14.png"/>|<img src="./etc/ubuntu-mono-on-maxos.png"/>|
 

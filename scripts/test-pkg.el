@@ -1,7 +1,7 @@
 
 (message "------> %s" (expand-file-name "../"))
 
-(load-file (expand-file-name "../use-ttf.el"))
+(load-file (expand-file-name "./use-ttf.el"))
 
 (setq use-ttf-default-ttf-fonts
       '("../fonts/clacon.ttf"

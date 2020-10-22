@@ -6,9 +6,9 @@
 # use-ttf
 > Keep font consistency across different OSs.
 
-I created this for people who have problems with their fonts not working 
-over different OS’s due to different installation methods used in different 
-OS’s. The purpose of this package is to automatically install font files (.ttf) 
+I created this for people who have problems with their fonts not working
+over different OS’s due to different installation methods used in different
+OS’s. The purpose of this package is to automatically install font files (.ttf)
 based on the OS you’re using. Saving you time from manually installing fonts.
 
 | Windows 10 / Ubuntu Mono Regular          | Ubuntu 14 / Classic Console                             | Mac OS / Ubuntu Mono Regular              |
@@ -16,7 +16,7 @@ based on the OS you’re using. Saving you time from manually installing fonts.
 |<img src="./etc/ubuntu-mono-on-win10.png"/>|<img src="./screenshot/classic-console-on-ubuntu14.png"/>|<img src="./etc/ubuntu-mono-on-maxos.png"/>|
 
 
-**:exclamation::exclamation: [ATTENTION] :exclamation::exclamation: 
+**:exclamation::exclamation: [ATTENTION] :exclamation::exclamation:
 -- MAKE SURE EMACS HAS THE PERMISSION TO INSTALL FONTS!**
 
 ## Configuration
@@ -26,12 +26,12 @@ List of TTF fonts you want to use and install in the currnet OS.
 ;; I just have all my fonts inside my '.emacs.d' directory for sake of simplicity.
 ;; But you can have your font at any directory you want.
 (setq use-ttf-default-ttf-fonts '(;; >> Classic Console <<
-                                  "/.emacs.jcs/fonts/clacon.ttf"
+                                  "~/.emacs.d/fonts/clacon.ttf"
                                   ;; >> Ubuntu Mono <<
-                                  "/.emacs.jcs/fonts/UbuntuMono-R.ttf"))
+                                  "~/.emacs.d/fonts/UbuntuMono-R.ttf"))
 ```
 
-Name of the font you want to use as default. I choose Ubuntu Mono as my 
+Name of the font you want to use as default. I choose Ubuntu Mono as my
 default font.
 ```el
 (setq use-ttf-default-ttf-font-name "Ubuntu Mono")
@@ -55,7 +55,7 @@ M-x use-ttf-set-default-font
 
 ## Contribution
 
-If you would like to contribute to this project, you may either 
-clone and make pull requests to this repository. Or you can 
-clone the project and establish your own branch of this tool. 
+If you would like to contribute to this project, you may either
+clone and make pull requests to this repository. Or you can
+clone the project and establish your own branch of this tool.
 Any methods are welcome!

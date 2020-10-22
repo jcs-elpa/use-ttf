@@ -26,5 +26,4 @@
         package)))
   ;; STUDY: Not sure if you need this?
   (when (get 'jcs-package-install 'state)
-    (jcs-package-rebuild-dependency-list)
     (package-initialize)))

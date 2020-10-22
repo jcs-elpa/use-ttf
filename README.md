@@ -32,7 +32,7 @@ List of TTF fonts you want to use and install in the currnet OS.
                                   "~/.emacs.d/fonts/UbuntuMono-R.ttf"))
 ```
 
-Name of the font you want to use as default. I choose Ubuntu Mono as my
+Name of the font you want to use as default. I choose `Ubuntu Mono` as my
 default font.
 ```el
 (setq use-ttf-default-ttf-font-name "Ubuntu Mono")

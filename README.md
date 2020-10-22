@@ -1,4 +1,5 @@
-[![Build Status](https://github.com/jcs-elpa/use-ttf/workflows/CI/badge.svg)](https://github.com/jcs-elpa/use-ttf/actions)
+[![CI-nix](https://github.com/jcs-elpa/use-ttf/workflows/CI-nix/badge.svg)](https://github.com/jcs-elpa/use-ttf/actions)
+[![CI-windows](https://github.com/jcs-elpa/use-ttf/workflows/CI-windows/badge.svg)](https://github.com/jcs-elpa/use-ttf/actions)
 [![MELPA](https://melpa.org/packages/use-ttf-badge.svg)](https://melpa.org/#/use-ttf)
 [![MELPA Stable](https://stable.melpa.org/packages/use-ttf-badge.svg)](https://stable.melpa.org/#/use-ttf)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)

@@ -2,15 +2,17 @@
 ;; (@* "Prepare" )
 ;;
 
-(load-file (expand-file-name "./scripts/pkg-prepare.el"))
+(add-to-list 'load-path "./")
+(add-to-list 'load-path "./scripts/")
+(require 'pkg-prepare)
 
 (jcs-ensure-package-installed '(s) t)
-
-(load-file (expand-file-name "./use-ttf.el"))
 
 ;;
 ;; (@* "Test" )
 ;;
+
+(require 'use-ttf)
 
 (setq use-ttf-default-ttf-fonts
       '("../fonts/clacon.ttf"

@@ -1,7 +1,7 @@
-![CI](https://github.com/jcs-elpa/use-ttf/workflows/CI/badge.svg)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![MELPA](https://melpa.org/packages/use-ttf-badge.svg)](https://melpa.org/#/use-ttf)
 [![MELPA Stable](https://stable.melpa.org/packages/use-ttf-badge.svg)](https://stable.melpa.org/#/use-ttf)
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![CI](https://github.com/jcs-elpa/use-ttf/workflows/CI/badge.svg)
 
 # use-ttf
 > Keep font consistency across different OSs.

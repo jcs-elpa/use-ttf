@@ -1,10 +1,11 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![MELPA](https://melpa.org/packages/use-ttf-badge.svg)](https://melpa.org/#/use-ttf)
 [![MELPA Stable](https://stable.melpa.org/packages/use-ttf-badge.svg)](https://stable.melpa.org/#/use-ttf)
-![CI](https://github.com/jcs-elpa/use-ttf/workflows/CI/badge.svg)
 
 # use-ttf
 > Keep font consistency across different OSs.
+
+![CI](https://github.com/jcs-elpa/use-ttf/workflows/CI/badge.svg)
 
 I created this for people who have problems with their fonts not working
 over different OS’s due to different installation methods used in different

@@ -53,13 +53,6 @@ This you need to check the font name in the system manually."
   "Replace OLD with NEW in S."
   (replace-regexp-in-string (regexp-quote old) new s t t))
 
-(defun use-ttf--contain-list-string (in-list in-str)
-  "Return non-nil if IN-STR is listed in IN-LIST.
-
-This function uses `string-match-p'.
-This function wrapped IN-STR with function `regexp-quote'."
-  (cl-some (lambda (elm) (string-match-p (regexp-quote elm) in-str)) in-list))
-
 (defun use-ttf--get-file-name-or-last-dir-from-path (in-path &optional ignore-errors-t)
   "Get the either the file name or last directory from the IN-PATH.
 If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this function."
@@ -167,7 +160,7 @@ This will actually set your Emacs to your target font."
           (and (stringp use-ttf-default-ttf-font-name)
                (string= use-ttf-default-ttf-font-name "")))
       (user-error "Your default font name cannot be 'nil' or 'empty string'")
-    (if (use-ttf--contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
+    (if (member use-ttf-default-ttf-font-name (font-family-list))
         (progn
           (set-frame-font use-ttf-default-ttf-font-name nil t)
           (message "[Set default font to '%s'.]" use-ttf-default-ttf-font-name))

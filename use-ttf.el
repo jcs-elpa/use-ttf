@@ -7,7 +7,7 @@
 ;; Description: Keep font consistency across different OSs.
 ;; Keyword: customize font install ttf
 ;; Version: 0.1.1
-;; Package-Requires: ((emacs "24.4") (s "1.12.0"))
+;; Package-Requires: ((emacs "24.4"))
 ;; URL: https://github.com/jcs-elpa/use-ttf
 
 ;; This file is NOT part of GNU Emacs.
@@ -32,8 +32,6 @@
 
 ;;; Code:
 
-(require 's)
-
 (defgroup use-ttf nil
   "Use .ttf file in Emacs."
   :prefix "use-ttf-"
@@ -51,9 +49,16 @@ This you need to check the font name in the system manually."
   :type 'string
   :group 'use-ttf)
 
-(defun use-ttf--is-contain-list-string (in-list in-str)
-  "Check if IN-STR contain in any string in the IN-LIST."
-  (cl-some #'(lambda (lb-sub-str) (string-match-p (regexp-quote lb-sub-str) in-str)) in-list))
+(defun use-ttf--replace (old new s)
+  "Replace OLD with NEW in S."
+  (replace-regexp-in-string (regexp-quote old) new s t t))
+
+(defun use-ttf--contain-list-string (in-list in-str)
+  "Return non-nil if IN-STR is listed in IN-LIST.
+
+This function uses `string-match-p'.
+This function wrapped IN-STR with function `regexp-quote'."
+  (cl-some (lambda (elm) (string-match-p (regexp-quote elm) in-str)) in-list))
 
 (defun use-ttf--get-file-name-or-last-dir-from-path (in-path &optional ignore-errors-t)
   "Get the either the file name or last directory from the IN-PATH.
@@ -62,9 +67,7 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
   (if (and (not (or (file-directory-p in-path) (file-exists-p in-path)))
            (not ignore-errors-t))
       (error "Directory/File you trying get does not exists : %s" in-path)
-    (let ((result-dir-or-file nil)
-          (split-dir-file-list '()) (split-dir-file-list-len 0))
-
+    (let ((split-dir-file-list-len 0) result-dir-or-file split-dir-file-list)
       (cond
        ((string-match-p "/" in-path)
         (setq split-dir-file-list (split-string in-path "/")))
@@ -89,14 +92,13 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
   (dolist (default-ttf-font use-ttf-default-ttf-fonts)
     (let ((font-path default-ttf-font)
           (ttf-file-name (use-ttf--get-file-name-or-last-dir-from-path default-ttf-font t))
-          (this-font-install nil)
-          install-font-path)
+          this-font-install install-font-path)
       ;; NOTE: Start installing to OS.
       (cond
-       ((string= system-type "windows-nt")  ; Windows
+       ((memq system-type '(cygwin windows-nt ms-dos))
         ;; NOTE: DOS/Windows use `slash' instead of `backslash'.
         (setq font-path (concat (getenv "HOME") default-ttf-font)
-              font-path (s-replace "/" "\\" font-path))
+              font-path (use-ttf--replace "/" "\\" font-path))
 
         (when (file-exists-p font-path)
           ;; Add font file to `Windows/Fonts' directory.
@@ -114,10 +116,10 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
                    " /f"))
 
           (setq this-font-install t)))
-       ((string= system-type "darwin")  ; macOS
+       ((eq system-type 'darwin)
         ;; NOTE: MacOS use `backslash' instead of `slash'.
         (setq font-path (concat (getenv "HOME") default-ttf-font)
-              font-path (s-replace "\\" "/" font-path))
+              font-path (use-ttf--replace "\\" "/" font-path))
 
         (when (file-exists-p font-path)
           ;; NOTE: Should `install-font-path' => `~/Library/Fonts'.
@@ -127,16 +129,14 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
             (mkdir install-font-path t))
 
           (shell-command
-           (concat "cp "
-                   (shell-quote-argument font-path)
-                   " "
+           (concat "cp " (shell-quote-argument font-path) " "
                    (shell-quote-argument install-font-path)))
 
           (setq this-font-install t)))
-       ((string= system-type "gnu/linux")  ; Linux Distro
+       ((eq system-type 'gnu/linux)
         ;; NOTE: Linux use `backslash' instead of `slash'.
         (setq font-path (concat (getenv "HOME") default-ttf-font)
-              font-path (s-replace "\\" "/" font-path))
+              font-path (use-ttf--replace "\\" "/" font-path))
 
         (when (file-exists-p font-path)
           ;; NOTE: Should `install-font-path' => `~/.fonts'.
@@ -146,9 +146,7 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
             (mkdir install-font-path t))
 
           (shell-command
-           (concat "cp "
-                   (shell-quote-argument font-path)
-                   " "
+           (concat "cp " (shell-quote-argument font-path) " "
                    (shell-quote-argument install-font-path)))
           (shell-command "fc-cache -f -v")
 
@@ -169,16 +167,13 @@ This will actually set your Emacs to your target font."
           (and (stringp use-ttf-default-ttf-font-name)
                (string= use-ttf-default-ttf-font-name "")))
       (user-error "Your default font name cannot be 'nil' or 'empty string'")
-    ;; NOTE: Install font if not installed.
-    (unless (use-ttf--is-contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
-      (call-interactively #'use-ttf-install-fonts))
-
-    (if (use-ttf--is-contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
+    (if (use-ttf--contain-list-string (font-family-list) use-ttf-default-ttf-font-name)
         (progn
           (set-frame-font use-ttf-default-ttf-font-name nil t)
           (message "[Set default font to '%s'.]" use-ttf-default-ttf-font-name))
       ;; NOTE: Logically, no need to output error message about
       ;; installation, because `use-ttf-install-fonts' handles itself.
+      (use-ttf-install-fonts)
       (message "[Install fonts process still running, please call 'use-ttf-set-default-font' after a while.]"))))
 
 (provide 'use-ttf)

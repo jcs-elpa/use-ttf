@@ -49,7 +49,7 @@ This you need to check the font name in the system manually."
   :type 'string
   :group 'use-ttf)
 
-(defun use-ttf--replace (old new s)
+(defun use-ttf--s-replace (old new s)
   "Replace OLD with NEW in S."
   (replace-regexp-in-string (regexp-quote old) new s t t))
 
@@ -91,7 +91,7 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
        ((memq system-type '(cygwin windows-nt ms-dos))
         ;; NOTE: DOS/Windows use `slash' instead of `backslash'.
         (setq font-path (concat (getenv "HOME") default-ttf-font)
-              font-path (use-ttf--replace "/" "\\" font-path))
+              font-path (use-ttf--s-replace "/" "\\" font-path))
 
         (when (file-exists-p font-path)
           ;; Add font file to `Windows/Fonts' directory.
@@ -112,7 +112,7 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
        ((eq system-type 'darwin)
         ;; NOTE: MacOS use `backslash' instead of `slash'.
         (setq font-path (concat (getenv "HOME") default-ttf-font)
-              font-path (use-ttf--replace "\\" "/" font-path))
+              font-path (use-ttf--s-replace "\\" "/" font-path))
 
         (when (file-exists-p font-path)
           ;; NOTE: Should `install-font-path' => `~/Library/Fonts'.
@@ -129,7 +129,7 @@ If optional argument IGNORE-ERRORS-T is non-nil; then ignore errors for this fun
        ((eq system-type 'gnu/linux)
         ;; NOTE: Linux use `backslash' instead of `slash'.
         (setq font-path (concat (getenv "HOME") default-ttf-font)
-              font-path (use-ttf--replace "\\" "/" font-path))
+              font-path (use-ttf--s-replace "\\" "/" font-path))
 
         (when (file-exists-p font-path)
           ;; NOTE: Should `install-font-path' => `~/.fonts'.

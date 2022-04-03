@@ -5,7 +5,7 @@
 # use-ttf
 > Keep font consistency across different OSs.
 
-![CI](https://github.com/jcs-elpa/use-ttf/workflows/CI/badge.svg)
+[![CI](https://github.com/jcs-elpa/use-ttf/actions/workflows/test.yml/badge.svg)](https://github.com/jcs-elpa/use-ttf/actions/workflows/test.yml)
 
 I created this for people who have problems with their fonts not working
 over different OS’s due to different installation methods used in different

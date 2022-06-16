@@ -4,11 +4,10 @@
 ;; Created date 2018-05-22 15:23:44
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
-;; Description: Keep font consistency across different OSs.
-;; Keyword: customize font install ttf
+;; URL: https://github.com/jcs-elpa/use-ttf
 ;; Version: 0.1.3
 ;; Package-Requires: ((emacs "24.4"))
-;; URL: https://github.com/jcs-elpa/use-ttf
+;; Keywords: customize font install ttf
 
 ;; This file is NOT part of GNU Emacs.
 

@@ -7,7 +7,7 @@
 ;; URL: https://github.com/jcs-elpa/use-ttf
 ;; Version: 0.1.3
 ;; Package-Requires: ((emacs "24.4"))
-;; Keywords: customize font install ttf
+;; Keywords: convenience customize font install ttf
 
 ;; This file is NOT part of GNU Emacs.
 

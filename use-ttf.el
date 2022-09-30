@@ -6,7 +6,7 @@
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
 ;; URL: https://github.com/jcs-elpa/use-ttf
 ;; Version: 0.1.3
-;; Package-Requires: ((emacs "24.4"))
+;; Package-Requires: ((emacs "26.1"))
 ;; Keywords: convenience customize font install ttf
 
 ;; This file is NOT part of GNU Emacs.
@@ -52,103 +52,70 @@ This you need to check the font name in the system manually."
   "Replace OLD with NEW in S."
   (replace-regexp-in-string (regexp-quote old) new s t t))
 
-(defun use-ttf--get-file-name-or-last-dir-from-path (in-path &optional ignore-errors)
-  "Get the either the file name or last directory from the IN-PATH.
-If optional argument IGNORE-ERRORS is non-nil; do not trigger errors"
-  ;; TODO: Future might implement just include directory and not each single .ttf file.
-  (if (and (not (or (file-directory-p in-path) (file-exists-p in-path)))
-           (not ignore-errors))
-      (error "Directory/File you trying get does not exists : %s" in-path)
-    (let ((split-dir-file-list-len 0) result-dir-or-file split-dir-file-list)
-      (cond
-       ((string-match-p "/" in-path)
-        (setq split-dir-file-list (split-string in-path "/")))
-       ((string-match-p "\\" in-path)
-        (setq split-dir-file-list (split-string in-path "\\")))
-       ((string-match-p "\\\\" in-path)
-        (setq split-dir-file-list (split-string in-path "\\\\"))))
+(defun use-ttf--inst-windows (font ttf)
+  "Install FONT TTF in Windows."
+  (when-let* ((path (expand-file-name font (getenv "HOME")))
+              ;; NOTE: DOS/Windows use `slash' instead of `backslash'
+              (path (use-ttf--s-replace "/" "\\" path))
+              ((file-exists-p path)))
+    ;; Add font file to `Windows/Fonts' directory
+    (shell-command (concat "echo F|xcopy /y /s /e /o "
+                           (shell-quote-argument path)
+                           " \"%systemroot%\\Fonts\""))
+    ;; Add font file to `Local/Microsoft/Windows/Fonts' directory
+    (shell-command (concat "echo F|xcopy /y /s /e /o "
+                           (shell-quote-argument path)
+                           " \"%LOCALAPPDATA%\\Microsoft\\Windows\\Fonts\""))
+    ;; Then add it to the register
+    (shell-command
+     (concat "reg add "
+             (shell-quote-argument "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts")
+             " /v "
+             (shell-quote-argument (concat ttf " (TrueType)"))
+             " /t REG_SZ /d "
+             (shell-quote-argument ttf)
+             " /f"))))
 
-      ;; Get the last element/item in the list
-      (setq split-dir-file-list-len (1- (length split-dir-file-list)))
+(defun use-ttf--inst-macos (font)
+  "Install FONT in macOS."
+  (when-let* ((path (expand-file-name font (getenv "HOME")))
+              (install-location (expand-file-name "/Library/Fonts" (getenv "HOME")))
+              ((file-exists-p path)))
+    (ignore-errors (make-directory install-location t))
+    (shell-command
+     (concat "cp " (shell-quote-argument path) " "
+             (shell-quote-argument install-location)))))
 
-      ;; Result is alwasy the last item in the list
-      (setq result-dir-or-file (nth split-dir-file-list-len split-dir-file-list))
-
-      ;; Return result
-      result-dir-or-file)))
+(defun use-ttf--inst-linux (font)
+  "Install FONT in Linux."
+  (when-let* ((path (expand-file-name font (getenv "HOME")))
+              (install-location (expand-file-name "/.fonts" (getenv "HOME")))
+              ((file-exists-p path)))
+    (ignore-errors (make-directory install-location t))
+    (shell-command
+     (concat "cp " (shell-quote-argument path) " "
+             (shell-quote-argument install-location)))
+    (shell-command "fc-cache -f -v")))
 
 ;;;###autoload
 (defun use-ttf-install-fonts ()
   "Install all .ttf fonts in the `use-ttf-default-ttf-fonts'."
   (interactive)
-  (dolist (default-ttf-font use-ttf-default-ttf-fonts)
-    (let ((font-path default-ttf-font)
-          (ttf-file-name (use-ttf--get-file-name-or-last-dir-from-path default-ttf-font t))
-          this-font-install install-font-path)
+  (dolist (font use-ttf-default-ttf-fonts)
+    (let ((ttf (file-name-nondirectory font)) installed-p)
       ;; NOTE: Start installing to OS
-      (cond
-       ((memq system-type '(cygwin windows-nt ms-dos))
-        ;; NOTE: DOS/Windows use `slash' instead of `backslash'
-        (setq font-path (concat (getenv "HOME") default-ttf-font)
-              font-path (use-ttf--s-replace "/" "\\" font-path))
-
-        (when (file-exists-p font-path)
-          ;; Add font file to `Windows/Fonts' directory
-          (shell-command (concat "echo F|xcopy /y /s /e /o "
-                                 (shell-quote-argument font-path)
-                                 " \"%systemroot%\\Fonts\""))
-          ;; Then add it to the register
-          (shell-command
-           (concat "reg add "
-                   (shell-quote-argument "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts")
-                   " /v "
-                   (shell-quote-argument (concat ttf-file-name " (TrueType)"))
-                   " /t REG_SZ /d "
-                   (shell-quote-argument ttf-file-name)
-                   " /f"))
-
-          (setq this-font-install t)))
-       ((eq system-type 'darwin)
-        ;; NOTE: MacOS use `backslash' instead of `slash'
-        (setq font-path (concat (getenv "HOME") default-ttf-font)
-              font-path (use-ttf--s-replace "\\" "/" font-path))
-
-        (when (file-exists-p font-path)
-          ;; NOTE: Should `install-font-path' => `~/Library/Fonts'
-          (setq install-font-path (concat (getenv "HOME") "/Library/Fonts"))
-
-          (unless (file-directory-p install-font-path)
-            (mkdir install-font-path t))
-
-          (shell-command
-           (concat "cp " (shell-quote-argument font-path) " "
-                   (shell-quote-argument install-font-path)))
-
-          (setq this-font-install t)))
-       ((eq system-type 'gnu/linux)
-        ;; NOTE: Linux use `backslash' instead of `slash'
-        (setq font-path (concat (getenv "HOME") default-ttf-font)
-              font-path (use-ttf--s-replace "\\" "/" font-path))
-
-        (when (file-exists-p font-path)
-          ;; NOTE: Should `install-font-path' => `~/.fonts'
-          (setq install-font-path (concat (getenv "HOME") "/.fonts"))
-
-          (unless (file-directory-p install-font-path)
-            (mkdir install-font-path t))
-
-          (shell-command
-           (concat "cp " (shell-quote-argument font-path) " "
-                   (shell-quote-argument install-font-path)))
-          (shell-command "fc-cache -f -v")
-
-          (setq this-font-install t))))
+      (setq installed-p
+            (cond
+             ((memq system-type '(cygwin windows-nt ms-dos))
+              (use-ttf--inst-windows font ttf))
+             ((eq system-type 'darwin) (use-ttf--inst-macos font))
+             ((eq system-type 'gnu/linux) (use-ttf--inst-linux font))))
 
       ;; NOTE: Prompt when installing the font
-      (if this-font-install
-          (message "[Done install font '%s'.]" ttf-file-name)
-        (message "[Font '%s' you specify is not install.]" ttf-file-name))))
-  (message "[Done install all the fonts.]"))
+      (if installed-p
+          (message "[Done install the font '%s'.]" ttf)
+        (message "[Font '%s' you specify is not installed.]" ttf))))
+  (message "[Done install all fonts.]"))
 
 ;;;###autoload
 (defun use-ttf-set-default-font ()
@@ -162,7 +129,7 @@ This will actually set your Emacs to your target font."
     (if (member use-ttf-default-ttf-font-name (font-family-list))
         (progn
           (set-frame-font use-ttf-default-ttf-font-name nil t)
-          (message "[Set default font to '%s'.]" use-ttf-default-ttf-font-name))
+          (message "[Set the default font to '%s'.]" use-ttf-default-ttf-font-name))
       ;; NOTE: Logically, no need to output error message about installation,
       ;; because `use-ttf-install-fonts' handles itself
       (use-ttf-install-fonts)

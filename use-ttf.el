@@ -48,6 +48,13 @@ This you need to check the font name in the system manually."
   :type 'string
   :group 'use-ttf)
 
+(defmacro use-ttf-silent (&rest body)
+  "Execute BODY without message."
+  (declare (indent 0) (debug t))
+  `(msgu-inhibit-log
+     (with-temp-message (or (current-message) nil)
+       (let ((inhibit-message t)) ,@body))))
+
 (defun use-ttf--s-replace (old new s)
   "Replace OLD with NEW in S."
   (replace-regexp-in-string (regexp-quote old) new s t t))
@@ -99,14 +106,14 @@ This you need to check the font name in the system manually."
   (interactive)
   (dolist (font use-ttf-default-ttf-fonts)
     (let ((ttf (file-name-nondirectory font)) installed-p)
-      ;; NOTE: Start installing to OS
-      (setq installed-p
-            (cond
-             ((memq system-type '(cygwin windows-nt ms-dos))
-              (use-ttf--inst-windows font ttf))
-             ((eq system-type 'darwin) (use-ttf--inst-macos font))
-             ((eq system-type 'gnu/linux) (use-ttf--inst-linux font))))
-
+      (use-ttf-silent
+        ;; NOTE: Start installing to OS
+        (setq installed-p
+              (cond
+               ((memq system-type '(cygwin windows-nt ms-dos))
+                (use-ttf--inst-windows font ttf))
+               ((eq system-type 'darwin) (use-ttf--inst-macos font))
+               ((eq system-type 'gnu/linux) (use-ttf--inst-linux font)))))
       ;; NOTE: Prompt when installing the font
       (if installed-p
           (message "[Done install the font '%s'.]" ttf)

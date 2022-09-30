@@ -62,10 +62,6 @@ This you need to check the font name in the system manually."
     (shell-command (concat "echo F|xcopy /y /s /e /o "
                            (shell-quote-argument path)
                            " \"%systemroot%\\Fonts\""))
-    ;; Add font file to `Local/Microsoft/Windows/Fonts' directory
-    (shell-command (concat "echo F|xcopy /y /s /e /o "
-                           (shell-quote-argument path)
-                           " \"%LOCALAPPDATA%\\Microsoft\\Windows\\Fonts\""))
     ;; Then add it to the register
     (shell-command
      (concat "reg add "

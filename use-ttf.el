@@ -48,10 +48,15 @@ This you need to check the font name in the system manually."
   :type 'string
   :group 'use-ttf)
 
+(defmacro use-ttf-inhibit-log (&rest body)
+  "Execute BODY without write it to message buffer."
+  (declare (indent 0) (debug t))
+  `(let (message-log-max) ,@body))
+
 (defmacro use-ttf-silent (&rest body)
   "Execute BODY without message."
   (declare (indent 0) (debug t))
-  `(msgu-inhibit-log
+  `(use-ttf-inhibit-log
      (with-temp-message (or (current-message) nil)
        (let ((inhibit-message t)) ,@body))))
 

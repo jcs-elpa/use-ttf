@@ -75,8 +75,8 @@ This you need to check the font name in the system manually."
 (defun use-ttf--inst-macos (font)
   "Install FONT in macOS."
   (when-let* ((path (expand-file-name font (getenv "HOME")))
-              (install-location (expand-file-name "/Library/Fonts" (getenv "HOME")))
-              ((file-exists-p path)))
+              ((file-exists-p path))
+              (install-location (expand-file-name "/Library/Fonts" (getenv "HOME"))))
     (ignore-errors (make-directory install-location t))
     (shell-command
      (concat "cp " (shell-quote-argument path) " "
@@ -85,8 +85,8 @@ This you need to check the font name in the system manually."
 (defun use-ttf--inst-linux (font)
   "Install FONT in Linux."
   (when-let* ((path (expand-file-name font (getenv "HOME")))
-              (install-location (expand-file-name "/.fonts" (getenv "HOME")))
-              ((file-exists-p path)))
+              ((file-exists-p path))
+              (install-location (expand-file-name "/.fonts" (getenv "HOME"))))
     (ignore-errors (make-directory install-location t))
     (shell-command
      (concat "cp " (shell-quote-argument path) " "

@@ -1,15 +1,6 @@
-;;
-;; (@* "Prepare" )
-;;
-
-(add-to-list 'load-path "./")
-(load-file (expand-file-name "./scripts/pkg-prepare.el"))
-
-(jcs-ensure-package-installed '(s) t)
-
-;;
-;; (@* "Test" )
-;;
+;;; activate.el --- Test activate package  -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
 
 (require 'use-ttf)
 
@@ -19,3 +10,5 @@
       use-ttf-default-ttf-font-name "Ubuntu Mono")
 
 (use-ttf-set-default-font)
+
+;;; activate.el ends here

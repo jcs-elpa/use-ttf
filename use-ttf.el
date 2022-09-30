@@ -64,7 +64,7 @@ This you need to check the font name in the system manually."
   "Replace OLD with NEW in S."
   (replace-regexp-in-string (regexp-quote old) new s t t))
 
-(defun uset-ttf--windows-add-reg (ttf root)
+(defun use-ttf--windows-add-reg (ttf root)
   "Add TTF registry to ROOT."
   (shell-command
    (concat "reg add "
@@ -86,8 +86,8 @@ This you need to check the font name in the system manually."
                            (shell-quote-argument path)
                            " \"%systemroot%\\Fonts\""))
     ;; Then add it to the register
-    (uset-ttf--windows-add-reg ttf "HKLM")
-    (uset-ttf--windows-add-reg ttf "HKEY_CURRENT_USER")))
+    (use-ttf--windows-add-reg ttf "HKLM")
+    (use-ttf--windows-add-reg ttf "HKEY_CURRENT_USER")))
 
 (defun use-ttf--inst-macos (font)
   "Install FONT in macOS."

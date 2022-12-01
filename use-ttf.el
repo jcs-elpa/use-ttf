@@ -114,21 +114,25 @@ This you need to check the font name in the system manually."
 (defun use-ttf-install-fonts ()
   "Install all .ttf fonts in the `use-ttf-default-ttf-fonts'."
   (interactive)
-  (dolist (font use-ttf-default-ttf-fonts)
-    (let ((ttf (file-name-nondirectory font)) installed-p)
-      (use-ttf-silent
-        ;; NOTE: Start installing to OS
-        (setq installed-p
-              (cond
-               ((memq system-type '(cygwin windows-nt ms-dos))
-                (use-ttf--inst-windows font ttf))
-               ((eq system-type 'darwin) (use-ttf--inst-macos font))
-               ((eq system-type 'gnu/linux) (use-ttf--inst-linux font)))))
-      ;; NOTE: Prompt when installing the font
-      (if installed-p
-          (message "[Done install the font '%s'.]" ttf)
-        (message "[Font '%s' you specify is not installed.]" ttf))))
-  (message "[Done install all fonts.]"))
+  (let (failed)
+    (dolist (font use-ttf-default-ttf-fonts)
+      (let ((ttf (file-name-nondirectory font)) installed-p)
+        (use-ttf-silent
+          ;; NOTE: Start installing to OS
+          (setq installed-p
+                (cond
+                 ((memq system-type '(cygwin windows-nt ms-dos))
+                  (use-ttf--inst-windows font ttf))
+                 ((eq system-type 'darwin) (use-ttf--inst-macos font))
+                 ((eq system-type 'gnu/linux) (use-ttf--inst-linux font)))))
+        ;; NOTE: Prompt when installing the font
+        (if installed-p
+            (message "[Done install the font '%s'.]" ttf)
+          (message "[Font '%s' you specify is not installed.]" ttf)
+          (setq failed t))))
+    (if failed
+        (message "[Some fonts are not installed, see above log for more information.]")
+      (message "[Done install all fonts.]"))))
 
 ;;;###autoload
 (defun use-ttf-set-default-font ()

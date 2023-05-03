@@ -139,18 +139,22 @@ This you need to check the font name in the system manually."
   "Use the font by `use-ttf-default-ttf-font-name` variable.
 This will actually set your Emacs to your target font."
   (interactive)
-  (if (or (not use-ttf-default-ttf-font-name)
-          (and (stringp use-ttf-default-ttf-font-name)
-               (string= use-ttf-default-ttf-font-name "")))
-      (user-error "Your default font name cannot be 'nil' or 'empty string'")
-    (if (member use-ttf-default-ttf-font-name (font-family-list))
-        (progn
-          (set-frame-font use-ttf-default-ttf-font-name nil t)
-          (message "[Set the default font to '%s'.]" use-ttf-default-ttf-font-name))
-      ;; NOTE: Logically, no need to output error message about installation,
-      ;; because `use-ttf-install-fonts' handles itself
-      (use-ttf-install-fonts)
-      (message "[Install fonts process still running, please call 'use-ttf-set-default-font' after a while.]"))))
+  (cond
+   ((not (display-graphic-p))
+    (message "[Can't set default '%s' in terminal mode, please change the terminal font.]"
+             use-ttf-default-ttf-font-name))
+   ((or (not use-ttf-default-ttf-font-name)
+        (and (stringp use-ttf-default-ttf-font-name)
+             (string-empty-p use-ttf-default-ttf-font-name)))
+    (user-error "Your default font name cannot be 'nil' or 'empty string'"))
+   ((member use-ttf-default-ttf-font-name (font-family-list))
+    (set-frame-font use-ttf-default-ttf-font-name nil t)
+    (message "[Set the default font to '%s'.]" use-ttf-default-ttf-font-name))
+   (t
+    ;; NOTE: Logically, no need to output error message about installation,
+    ;; because `use-ttf-install-fonts' handles itself
+    (use-ttf-install-fonts)
+    (message "[Font installtion is still running, please call 'use-ttf-set-default-font' after a while.]"))))
 
 (provide 'use-ttf)
 ;;; use-ttf.el ends here

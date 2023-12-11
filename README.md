@@ -21,7 +21,7 @@ based on the OS you’re using. Saving you time from manually installing fonts.
 **:exclamation::exclamation: [ATTENTION] :exclamation::exclamation:
 -- MAKE SURE EMACS HAS THE PERMISSION TO INSTALL FONTS!**
 
-## Configuration
+## 📝 Configuration
 
 List of TTF fonts you want to use and install in the currnet OS.
 ```el
@@ -39,7 +39,7 @@ default font.
 (setq use-ttf-default-ttf-font-name "Ubuntu Mono")
 ```
 
-## Usage
+## 🔧 Usage
 
 Install fonts into the current OS. The more .ttf file you try to install might
 take a while, but this function does not block the Emacs' process itself.

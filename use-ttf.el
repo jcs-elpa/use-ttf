@@ -37,7 +37,7 @@
   :group 'appearance
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/use-ttf"))
 
-(defcustom use-ttf-default-ttf-fonts '()
+(defcustom use-ttf-default-ttf-fonts nil
   "List of TTF fonts you want to use in the currnet OS."
   :type 'list
   :group 'use-ttf)

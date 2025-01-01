@@ -1,6 +1,6 @@
 ;;; use-ttf.el --- Keep font consistency across different OSs  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2018-2024  Shen, Jen-Chieh
+;; Copyright (C) 2018-2025  Shen, Jen-Chieh
 ;; Created date 2018-05-22 15:23:44
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>

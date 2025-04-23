@@ -1,3 +1,5 @@
+;; -*- mode: eask; lexical-binding: t -*-
+
 (package "use-ttf"
          "0.1.3"
          "Keep font consistency across different OSs")

@@ -103,7 +103,7 @@ This you need to check the font name in the system manually."
   "Install FONT in Linux."
   (when-let* ((path (expand-file-name font (getenv "HOME")))
               ((file-exists-p path))
-              (install-location (expand-file-name "/.fonts" (getenv "HOME"))))
+              (install-location (expand-file-name "./.fonts" (getenv "HOME"))))
     (ignore-errors (make-directory install-location t))
     (shell-command
      (concat "cp " (shell-quote-argument path) " "
